@@ -77,3 +77,4 @@ troposphere/static/bower_components
 
 # Third party setting
 extras/newrelic
+extras/troposphere.conf
