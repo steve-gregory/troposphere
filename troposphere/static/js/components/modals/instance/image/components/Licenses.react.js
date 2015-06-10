@@ -23,13 +23,14 @@ define(function (require) {
         <li>
           <label>
             <input type="checkbox"/>
-            <span style={{"padding-left": "8px"}}>{license.get('title')}</span>
+            <span style={{paddingLeft: "8px"}}>{license.get('title')}</span>
           </label>
         </li>
       )
     },
 
-    onToggleEditMode: function(){
+    onToggleEditMode: function(e){
+      e.preventDefault();
       this.setState({
         isEditing: !this.state.isEditing
       })
@@ -38,7 +39,6 @@ define(function (require) {
     renderNewLicenseButton: function(){
       return (
         <a
-          className="btn btn-primary new-tag"
           href="#"
           onClick={this.onToggleEditMode}
         >
@@ -48,64 +48,6 @@ define(function (require) {
     },
 
     renderCreateLicenseForm: function(){
-      return (
-        <div className="form">
-          <div className="form-group">
-            <label className="control-label">Title</label>
-            <div>
-              <input type="text" className="form-control" placeholder="Title..."/>
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="control-label">Type</label>
-            <div>
-              <select className="form-control">
-                <option>text</option>
-                <option>url</option>
-              </select>
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="control-label">Value</label>
-            <div>
-              <textarea className="form-control" rows="3"></textarea>
-            </div>
-          </div>
-          <a className="btn btn-primary" onClick={this.onToggleEditMode}>+ Add License</a>
-        </div>
-      )
-    },
-
-    renderHorizontalCreateLicenseForm: function(){
-      return (
-        <div className="form-horizontal">
-          <div className="form-group">
-            <label className="control-label col-sm-3">Title</label>
-            <div className="col-sm-9">
-              <input type="text" className="form-control" placeholder="Title..."/>
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="control-label col-sm-3">Type</label>
-            <div className="col-sm-9">
-              <select className="form-control">
-                <option>text</option>
-                <option>url</option>
-              </select>
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="control-label col-sm-3">Value</label>
-            <div className="col-sm-9">
-              <textarea className="form-control" rows="3"></textarea>
-            </div>
-          </div>
-          <a className="btn btn-primary" onClick={this.onToggleEditMode}>+ Add License</a>
-        </div>
-      );
-    },
-
-    renderSplitCreateLicenseForm: function(){
       return (
         <div>
           <hr/>
@@ -137,41 +79,8 @@ define(function (require) {
                   <textarea className="form-control" rows="3"></textarea>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary" onClick={this.onToggleEditMode} style={{float: "right"}}>Add License</button>
+              <button onClick={this.onToggleEditMode} style={{float: "right"}}>Add License</button>
             </div>
-          </div>
-        </div>
-      );
-    },
-
-    renderSplitCreateLicenseForm2: function(){
-      return (
-        <div>
-          <div className="form-inline">
-            <div className="form-group">
-              <label className="control-label sr-only">Title</label>
-              <div>
-                <input type="text" className="form-control" placeholder="Title..."/>
-              </div>
-            </div>
-            <div className="form-group">
-              <label className="control-label sr-only">Type</label>
-              <div>
-                <select className="form-control">
-                  <option>text</option>
-                  <option>url</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="form-horizontal">
-            <div className="form-group">
-              <label className="control-label col-sm-3">Value</label>
-              <div className="col-sm-9">
-                <textarea className="form-control" rows="3"></textarea>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-default" onClick={this.onToggleEditMode}>Add License</button>
           </div>
         </div>
       );
@@ -190,7 +99,7 @@ define(function (require) {
             <ul style={{padding: "0px"}}>
               {imageLicenses.map(this.renderLicense)}
             </ul>
-            {this.state.isEditing ? this.renderSplitCreateLicenseForm() : this.renderNewLicenseButton()}
+            {this.state.isEditing ? this.renderCreateLicenseForm() : this.renderNewLicenseButton()}
           </div>
         </div>
       );
