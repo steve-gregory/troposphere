@@ -5,6 +5,7 @@ define(function (require) {
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       stores = require('stores'),
       NameDescriptionTagsStep = require('./image/steps/NameDescriptionTagsStep.react'),
+      LicenseStep = require('./image/steps/LicenseStep.react'),
       ProviderStep = require('./image/steps/ProviderStep.react'),
       VisibilityStep = require('./image/steps/VisibilityStep.react'),
       FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
@@ -20,7 +21,7 @@ define(function (require) {
 
     getInitialState: function(){
       return {
-        step: 1,
+        step: 2,
         name: "",
         description: "",
         imageTags: null,
@@ -114,6 +115,18 @@ define(function (require) {
 
         case 2:
           return (
+            <LicenseStep
+              name={this.state.name}
+              description={this.state.description}
+              imageTags={this.state.imageTags}
+              instance={instance}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+            />
+          );
+
+        case 3:
+          return (
             <ProviderStep
               instance={instance}
               providerId={this.state.providerId}
@@ -122,7 +135,7 @@ define(function (require) {
             />
           );
 
-        case 3:
+        case 4:
           return (
             <VisibilityStep
               instance={instance}
@@ -133,7 +146,7 @@ define(function (require) {
             />
           );
 
-        case 4:
+        case 5:
           return (
             <FilesToExcludeStep
               filesToExclude={this.state.filesToExclude}
@@ -142,7 +155,7 @@ define(function (require) {
             />
           );
 
-        case 5:
+        case 6:
           return (
             <ReviewStep
               imageData={this.state}
