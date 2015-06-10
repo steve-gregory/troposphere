@@ -8,7 +8,7 @@ define(function (require) {
   return Backbone.Collection.extend({
     model: License,
 
-    url: globals.API_V2_ROOT + '/licenses',
+    url: globals.API_ROOT + '/license',
 
     parse: function (response) {
       this.meta = {
