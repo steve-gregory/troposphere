@@ -1,6 +1,7 @@
 define(function (require) {
 
   var BaseStore = require('stores/BaseStore'),
+      Dispatcher = require('dispatchers/Dispatcher'),
       LicenseCollection = require('collections/LicenseCollection'),
       LicenseConstants = require('constants/LicenseConstants');
 

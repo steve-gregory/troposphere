@@ -98,6 +98,10 @@ define(function(require) {
         value: "more woooooooords"
       }]);
 
+      var licenses = stores.LicenseStore.getAll();
+
+      if(!licenses) return <div className="loading"/>;
+
       return (
         <div>
           <Licenses

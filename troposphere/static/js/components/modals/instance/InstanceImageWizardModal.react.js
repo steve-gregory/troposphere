@@ -42,11 +42,13 @@ define(function (require) {
 
     componentDidMount: function () {
       stores.InstanceTagStore.addChangeListener(this.updateState);
+      stores.LicenseStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
       stores.InstanceTagStore.removeChangeListener(this.updateState);
+      stores.LicenseStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
     },
 

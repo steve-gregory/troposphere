@@ -2,7 +2,9 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      stores = require('stores');
+      stores = require('stores'),
+      actions = require('actions'),
+      LicenseCreateForm = require('./LicenseCreateForm.react');
 
   return React.createClass({
 
@@ -33,7 +35,12 @@ define(function (require) {
       e.preventDefault();
       this.setState({
         isEditing: !this.state.isEditing
-      })
+      });
+    },
+
+    onCreateLicense: function(license){
+      actions.LicenseActions.create(license);
+      this.setState({ isEditing: false });
     },
 
     renderNewLicenseButton: function(){
@@ -54,34 +61,10 @@ define(function (require) {
           <div className="col-sm-12 help-block">
             Fill out the information below describing the license.
           </div>
-          <div className="clearfix">
-            <div className="form-inline clearfix">
-              <div className="form-group col-sm-6">
-                <label className="control-label">Title</label>
-                <div>
-                  <input type="text" className="form-control" placeholder="Title..."  style={{width: "100%"}}/>
-                </div>
-              </div>
-              <div className="form-group col-sm-6">
-                <label className="control-label">Type</label>
-                <div>
-                  <select className="form-control" style={{width: "100%"}}>
-                    <option>text</option>
-                    <option>url</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="form col-sm-12">
-              <div className="form-group">
-                <label className="control-label">Value</label>
-                <div>
-                  <textarea className="form-control" rows="3"></textarea>
-                </div>
-              </div>
-              <button onClick={this.onToggleEditMode} style={{float: "right"}}>Add License</button>
-            </div>
-          </div>
+          <LicenseCreateForm
+            onCancel={this.onToggleEditMode}
+            onCreateLicense={this.onCreateLicense}
+          />
         </div>
       );
     },

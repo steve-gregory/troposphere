@@ -10,15 +10,15 @@ define(function (require) {
 
     create: function(params){
       if(!params.title) throw new Error("Missing title");
-      if(!params.license_type) throw new Error("Missing license_type");
-      if(!params.license_text) throw new Error("Missing license_text");
+      if(!params.type) throw new Error("Missing type");
+      if(!params.value) throw new Error("Missing value");
 
       var title = params.title,
-          license_type = params.license_type,
-          license_text = params.license_text;
+          license_type = params.type,
+          license_text = params.value;
 
       var license = new License({
-        title: name,
+        title: title,
         license_type: license_type,
         license_text: license_text,
         access_list: []
