@@ -2,12 +2,11 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      _ = require('underscore'),
       globals = require('globals'),
-      Machine = require('models/License');
+      License = require('models/License');
 
   return Backbone.Collection.extend({
-    model: Machine,
+    model: License,
 
     url: globals.API_V2_ROOT + '/licenses',
 
