@@ -12,7 +12,7 @@ define(
 
     function getState(currentProject, currentState) {
       var state = {
-        projects: stores.ProjectStore.getAll(),
+        projects: stores.ProjectStore.find(),
         projectId: null
       };
 

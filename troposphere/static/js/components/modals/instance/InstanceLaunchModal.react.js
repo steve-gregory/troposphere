@@ -104,7 +104,7 @@ define(function (require) {
           //maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
           //sizes = stores.SizeStore.getAll(),
           //instances = stores.InstanceStore.getAll(),
-          projects = stores.ProjectStore.getAll(),
+          projects = stores.ProjectStore.find(),
           providers = stores.ProviderStore.getAll(),
           providerSizes,
           selectedIdentity,
@@ -227,7 +227,7 @@ define(function (require) {
 
     confirm: function () {
       var identity = stores.IdentityStore.findOne(this.state.identityId),
-          project = stores.ProjectStore.get(this.state.projectId);
+          project = stores.ProjectStore.findOne(this.state.projectId);
 
       this.hide();
 
@@ -412,7 +412,7 @@ define(function (require) {
       var image = this.props.application,
           identities = stores.IdentityStore.find(),
           providers = stores.ProviderStore.getAll(),
-          projects = stores.ProjectStore.getAll(),
+          projects = stores.ProjectStore.find(),
           sizes = stores.SizeStore.getAll(),
           instances = stores.InstanceStore.getAll(),
           selectedIdentity,

@@ -33,7 +33,7 @@ define(
       getInitialState: function () {
         var initialState = {
           projectName: "",
-          projects: stores.ProjectStore.getAll(),
+          projects: stores.ProjectStore.find(),
           projectId: null
         };
 
@@ -49,7 +49,7 @@ define(
       getState: function(){
         var state = {
           projectName: this.state.projectName,
-          projects: stores.ProjectStore.getAll(),
+          projects: stores.ProjectStore.find(),
           projectId: this.state.projectId
         };
 

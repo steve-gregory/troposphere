@@ -2,7 +2,7 @@ define(function (require) {
 
   var _ = require('underscore'),
       Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
+      BaseStore = require('stores/BetterBaseStore'),
       ProjectCollection = require('collections/ProjectCollection'),
       ProjectConstants = require('constants/ProjectConstants');
 

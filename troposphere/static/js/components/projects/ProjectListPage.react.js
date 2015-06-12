@@ -10,7 +10,7 @@ define(
 
     function getProjectState() {
       return {
-        projects: stores.ProjectStore.getAll()
+        projects: stores.ProjectStore.find()
       };
     }
 

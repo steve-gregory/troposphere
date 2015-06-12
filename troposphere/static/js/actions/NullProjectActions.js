@@ -88,7 +88,7 @@ define(function (require) {
     // the new Atmosphere interface, or by switching back and forth between the old and new UI
     //
     moveAttachedVolumesIntoCorrectProject: function(){
-      var projects = stores.ProjectStore.getAll(),
+      var projects = stores.ProjectStore.find(),
           instances = stores.InstanceStore.getAll(),
           volumes = stores.VolumeStore.getAll(),
           volumesInWrongProject = [];
@@ -96,7 +96,7 @@ define(function (require) {
       // Move volumes into correct project
       volumes.each(function(volume){
         var volumeProjectId = volume.get('projects')[0],
-            volumeProject = stores.ProjectStore.get(volumeProjectId),
+            volumeProject = stores.ProjectStore.findOne(volumeProjectId),
             instanceUUID = volume.get('attach_data').instance_id,
             instance,
             instanceProjectId,
@@ -112,7 +112,7 @@ define(function (require) {
 
           instanceProjectId = instance.get('projects')[0];
           if(volumeProjectId !== instanceProjectId){
-            project = stores.ProjectStore.get(instanceProjectId);
+            project = stores.ProjectStore.findOne(instanceProjectId);
             this._migrateResourceIntoRealProject(volume, volumeProject, project);
             volumesInWrongProject.push({
               volume: volume,
