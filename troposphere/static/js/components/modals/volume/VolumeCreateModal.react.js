@@ -15,7 +15,7 @@ define(
       mixins: [BootstrapModalMixin],
 
       isSubmittable: function(){
-        var identities = stores.IdentityStore.getAll(),
+        var identities = stores.IdentityStore.find(),
             maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
             volumes = stores.VolumeStore.getAll();
 
@@ -50,7 +50,7 @@ define(
 
       getState: function() {
         var state = this.state,
-            identities = stores.IdentityStore.getAll();
+            identities = stores.IdentityStore.find();
 
         // Use selected identity or default to the first one
         if (identities) {
@@ -61,7 +61,7 @@ define(
       },
 
       getInitialState: function(){
-        var identities = stores.IdentityStore.getAll();
+        var identities = stores.IdentityStore.find();
 
         return {
           volumeName: "",
@@ -239,7 +239,7 @@ define(
       },
 
       renderBody: function(){
-        var identities = stores.IdentityStore.getAll(),
+        var identities = stores.IdentityStore.find(),
             providers = stores.ProviderStore.getAll(),
             volumes = stores.VolumeStore.getAll(),
             identityId = this.state.identityId,

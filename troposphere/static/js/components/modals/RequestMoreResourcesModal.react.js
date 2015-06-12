@@ -12,7 +12,7 @@ define(
       mixins: [BootstrapModalMixin],
 
       getInitialState: function () {
-        var identities = stores.IdentityStore.getAll();
+        var identities = stores.IdentityStore.find();
         return {
           identity: identities ? identities.first().id : null,
           resources: "",
@@ -21,7 +21,7 @@ define(
       },
 
       getState: function () {
-        var identities = stores.IdentityStore.getAll(),
+        var identities = stores.IdentityStore.find(),
             identityId = null;
 
         if(identities){
@@ -98,7 +98,7 @@ define(
       },
 
       renderBody: function(){
-        var identities = stores.IdentityStore.getAll();
+        var identities = stores.IdentityStore.find();
 
         if(!identities) return <div className="loading"/>;
 

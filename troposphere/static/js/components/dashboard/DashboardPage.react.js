@@ -20,7 +20,7 @@ define(function (require) {
     render: function () {
 
       var providers = stores.ProviderStore.getAll(),
-          identities = stores.IdentityStore.getAll(),
+          identities = stores.IdentityStore.find(),
           projects = stores.ProjectStore.getAll(),
           maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
           applications = stores.ApplicationStore.getAll(),

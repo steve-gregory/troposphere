@@ -21,7 +21,7 @@ define(function (require) {
     },
 
     isSubmittable: function(){
-      var identities = stores.IdentityStore.getAll(),
+      var identities = stores.IdentityStore.find(),
           maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
           sizes = stores.SizeStore.getAll(),
           instances = stores.InstanceStore.getAll(),
@@ -100,7 +100,7 @@ define(function (require) {
     getState: function(){
       var image = this.props.application,
           machines = image.get('provider_images'),
-          identities = stores.IdentityStore.getAll(),
+          identities = stores.IdentityStore.find(),
           //maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
           //sizes = stores.SizeStore.getAll(),
           //instances = stores.InstanceStore.getAll(),
@@ -410,7 +410,7 @@ define(function (require) {
 
     renderBody: function(){
       var image = this.props.application,
-          identities = stores.IdentityStore.getAll(),
+          identities = stores.IdentityStore.find(),
           providers = stores.ProviderStore.getAll(),
           projects = stores.ProjectStore.getAll(),
           sizes = stores.SizeStore.getAll(),

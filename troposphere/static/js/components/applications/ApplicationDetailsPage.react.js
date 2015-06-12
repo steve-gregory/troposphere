@@ -16,7 +16,7 @@ define(function (require) {
           tags = stores.TagStore.getAll(),
           userLoggedIn = context.profile,
           providers = userLoggedIn ? stores.ProviderStore.getAll() : null,
-          identities = userLoggedIn ? stores.IdentityStore.getAll() : null;
+          identities = userLoggedIn ? stores.IdentityStore.find() : null;
 
       if(!application || !tags) return <div className='loading'></div>;
 
