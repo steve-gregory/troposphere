@@ -27,7 +27,7 @@ define(
 
       getState: function() {
         return {
-          providers: stores.ProviderStore.getAll(),
+          providers: stores.ProviderStore.find(),
           identities: stores.IdentityStore.find(),
           tags: stores.TagStore.getAll()
         };

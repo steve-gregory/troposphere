@@ -11,7 +11,7 @@ define(function (stores) {
     },
 
     renderMessage: function(message){
-      var provider = stores.ProviderStore.get(message.get('provider')),
+      var provider = stores.ProviderStore.findOne(message.get('provider')),
           providerName = provider ? provider.get('name') : "";
 
       return (

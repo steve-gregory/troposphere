@@ -13,7 +13,7 @@ define(function (require) {
 
     render: function () {
       var volume = this.props.volume,
-          provider = stores.ProviderStore.get(volume.get('provider'));
+          provider = stores.ProviderStore.findOne(volume.get('provider'));
 
       if(!provider) return <div className="loading"></div>;
 

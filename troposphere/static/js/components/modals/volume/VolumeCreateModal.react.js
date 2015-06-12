@@ -240,7 +240,7 @@ define(
 
       renderBody: function(){
         var identities = stores.IdentityStore.find(),
-            providers = stores.ProviderStore.getAll(),
+            providers = stores.ProviderStore.find(),
             volumes = stores.VolumeStore.getAll(),
             identityId = this.state.identityId,
             name = this.state.volumeName,

@@ -12,7 +12,7 @@ define(function (require) {
 
     render: function () {
       var volume = this.props.volume,
-          provider = stores.ProviderStore.get(volume.get('provider').id);
+          provider = stores.ProviderStore.findOne(volume.get('provider').id);
 
       if(!provider) return <div className="loading-tiny-inline"></div>;
 

@@ -24,7 +24,7 @@ define(function (require) {
 
     render: function () {
       var providerId = this.props.providerId,
-          providers = stores.ProviderStore.getAll();
+          providers = stores.ProviderStore.find();
 
       if(!providers) return <div className="loading"/>;
 

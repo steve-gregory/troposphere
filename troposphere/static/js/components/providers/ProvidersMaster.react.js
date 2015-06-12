@@ -17,7 +17,7 @@ define(function (require) {
 
     getState: function() {
       return {
-        providers: stores.ProviderStore.getAll()
+        providers: stores.ProviderStore.find()
       };
     },
 

@@ -28,7 +28,7 @@ define(function (require) {
       var machine = this.props.machine,
           current_app = this.props.application,
           applications = stores.ApplicationStore.getAll(),
-          providers = stores.ProviderStore.getAll(),
+          providers = stores.ProviderStore.find(),
           all_users = stores.UserStore.getAll(),
           //licenses = stores.LicenseStore.getAll(), //Future
           selectedApplication,

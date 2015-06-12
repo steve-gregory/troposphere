@@ -12,7 +12,7 @@ define(function (require) {
 
     render: function () {
       var instance = this.props.instance,
-          provider = stores.ProviderStore.get(instance.get('provider').id);
+          provider = stores.ProviderStore.findOne(instance.get('provider').id);
 
       if(!provider) return <div className="loading-tiny-inline"></div>;
 

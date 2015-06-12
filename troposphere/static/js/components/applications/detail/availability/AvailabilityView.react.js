@@ -24,12 +24,12 @@ define(function (require) {
           providers = image.get('machines').filter(function(machine){
             // filter out providers that don't exist
             var providerId = machine.get('provider').id,
-                provider = stores.ProviderStore.get(machine.get('provider').id);
+                provider = stores.ProviderStore.findOne(machine.get('provider').id);
             if(!provider) console.warn("Image " + image.id + " showing availability on non-existent provider " + providerId);
             return provider;
           }).map(function(machine){
             // convert machine to providers
-            return stores.ProviderStore.get(machine.get('provider').id);
+            return stores.ProviderStore.findOne(machine.get('provider').id);
           }).filter(function(provider){
             // remove duplicate providers
             if(!providerHash[provider.id]){

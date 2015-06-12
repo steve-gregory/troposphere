@@ -15,7 +15,7 @@ define(function (require) {
       var application = stores.ApplicationStore.get(Number(this.getParams().imageId)),
           tags = stores.TagStore.getAll(),
           userLoggedIn = context.profile,
-          providers = userLoggedIn ? stores.ProviderStore.getAll() : null,
+          providers = userLoggedIn ? stores.ProviderStore.find() : null,
           identities = userLoggedIn ? stores.IdentityStore.find() : null;
 
       if(!application || !tags) return <div className='loading'></div>;

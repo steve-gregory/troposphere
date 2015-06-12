@@ -36,7 +36,7 @@ define(function (require) {
           tagNames = tags.map(function(tag){
             return tag.get('name');
           }),
-          provider = stores.ProviderStore.get(providerId);
+          provider = stores.ProviderStore.findOne(providerId);
 
       var requestData = {
         instance: instance.get('uuid'),

@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var BaseStore = require('stores/BaseStore'),
+  var BaseStore = require('stores/BetterBaseStore'),
       ProviderCollection = require('collections/ProviderCollection');
 
   var ProviderStore = BaseStore.extend({

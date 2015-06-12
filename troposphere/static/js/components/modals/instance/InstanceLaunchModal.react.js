@@ -105,7 +105,7 @@ define(function (require) {
           //sizes = stores.SizeStore.getAll(),
           //instances = stores.InstanceStore.getAll(),
           projects = stores.ProjectStore.find(),
-          providers = stores.ProviderStore.getAll(),
+          providers = stores.ProviderStore.find(),
           providerSizes,
           selectedIdentity,
           selectedProvider,
@@ -266,7 +266,7 @@ define(function (require) {
       var newIdentityId = e.target.value,
           identity = stores.IdentityStore.findOne(newIdentityId),
           providerId = identity.get('provider').id,
-          provider = stores.ProviderStore.get(providerId),
+          provider = stores.ProviderStore.findOne(providerId),
           sizes = stores.SizeStore.fetchWhere({
             provider__id: provider.id,
             page_size: 100
@@ -411,7 +411,7 @@ define(function (require) {
     renderBody: function(){
       var image = this.props.application,
           identities = stores.IdentityStore.find(),
-          providers = stores.ProviderStore.getAll(),
+          providers = stores.ProviderStore.find(),
           projects = stores.ProjectStore.find(),
           sizes = stores.SizeStore.getAll(),
           instances = stores.InstanceStore.getAll(),

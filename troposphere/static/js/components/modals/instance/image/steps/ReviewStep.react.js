@@ -97,7 +97,7 @@ define(function(require) {
     },
 
     renderBody: function (imageData) {
-      var provider = stores.ProviderStore.get(imageData.providerId),
+      var provider = stores.ProviderStore.findOne(imageData.providerId),
           visibilityMap = {
             'public': 'Public (everyone can see the image)',
             'private': 'Private (only you can see the image)',
