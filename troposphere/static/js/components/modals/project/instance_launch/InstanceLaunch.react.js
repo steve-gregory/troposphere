@@ -207,7 +207,7 @@ define(function (require) {
     },
 
     onNext: function () {
-      var identity = stores.IdentityStore.get(this.state.identityId);
+      var identity = stores.IdentityStore.findOne(this.state.identityId);
 
       this.props.onNext(
         identity,
@@ -241,7 +241,7 @@ define(function (require) {
 
     onProviderIdentityChange: function(e){
       var newIdentityId = e.target.value,
-          identity = stores.IdentityStore.get(newIdentityId),
+          identity = stores.IdentityStore.findOne(newIdentityId),
           providerId = identity.get('provider').id,
           provider = stores.ProviderStore.get(providerId),
           sizes = stores.SizeStore.fetchWhere({

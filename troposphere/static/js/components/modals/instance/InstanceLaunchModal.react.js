@@ -226,7 +226,7 @@ define(function (require) {
     },
 
     confirm: function () {
-      var identity = stores.IdentityStore.get(this.state.identityId),
+      var identity = stores.IdentityStore.findOne(this.state.identityId),
           project = stores.ProjectStore.get(this.state.projectId);
 
       this.hide();
@@ -264,7 +264,7 @@ define(function (require) {
 
     onProviderIdentityChange: function(e){
       var newIdentityId = e.target.value,
-          identity = stores.IdentityStore.get(newIdentityId),
+          identity = stores.IdentityStore.findOne(newIdentityId),
           providerId = identity.get('provider').id,
           provider = stores.ProviderStore.get(providerId),
           sizes = stores.SizeStore.fetchWhere({

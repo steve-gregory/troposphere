@@ -22,7 +22,7 @@ define(
         if(!identities || !maintenanceMessages || !volumes) return false;
 
         // Make sure the selected provider is not in maintenance
-        var selectedIdentity = stores.IdentityStore.get(this.state.identityId),
+        var selectedIdentity = stores.IdentityStore.findOne(this.state.identityId),
             isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
 
         // Disable the launch button if the user hasn't provided a name, size or identity for the volume
@@ -101,7 +101,7 @@ define(
         var name = this.state.volumeName,
             size = this.state.volumeSize,
             identityId = this.state.identityId,
-            identity = stores.IdentityStore.get(identityId);
+            identity = stores.IdentityStore.findOne(identityId);
 
         this.hide();
         this.props.onConfirm(name, size, identity);
