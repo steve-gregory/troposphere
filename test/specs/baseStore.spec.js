@@ -84,7 +84,7 @@ define(function(require) {
             ]);
         });
 
-        it.only("should pass filter parameters to the server", function(){
+        it("should pass filter parameters to the server", function(){
           var store = new TestStore();
           var options = {
             where: {
@@ -102,6 +102,41 @@ define(function(require) {
       })
 
     });
+
+    describe("#findOne", function(){
+      describe("when passed an id", function(){
+        var modelId = 1;
+
+        beforeEach(function(){
+          server.respondWith(
+            "GET",
+            "/api/tests/1",
+            [
+              200, {
+                "Content-Type": "application/json"
+              },
+              JSON.stringify({
+                "id": 1, "comment": "Hey there"
+              })
+            ]);
+        });
+
+        it.only("should return the model with that id", function(){
+          var store = new TestStore();
+          var result = store.findOne(modelId);
+          expect(result).to.be.undefined;
+          server.respond();
+          result = store.findOne(modelId);
+          expect(result.id).to.equal(modelId);
+          expect(server.requests[0].url).to.equal("/api/tests/1");
+        });
+      });
+
+      it("should return a single item");
+      it("should fetch models if none exist");
+      it("should return model from local cache if all models fetched");
+      it("should make server request if not all models cached");
+    })
 
   });
 
