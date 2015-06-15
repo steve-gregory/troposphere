@@ -50,13 +50,6 @@ define(function(require) {
         });
 
         it("should fetch models from server if none exist", function () {
-          //var collection = new TestCollection();
-          //expect(collection.url).to.equal("/api/tests");
-          //collection.fetch().done(function(){
-          //  expect(collection.length).to.equal(1);
-          //  done();
-          //});
-
           var store = new TestStore();
           var results = store.find();
           expect(results).to.be.undefined;
@@ -99,7 +92,7 @@ define(function(require) {
           expect(results.length).to.equal(1);
           expect(server.requests[0].url).to.equal(url);
         })
-      })
+      });
 
     });
 
@@ -159,6 +152,71 @@ define(function(require) {
             expect(result.id).to.equal(modelId);
           });
         })
+
+      });
+
+      describe("when passed an object", function(){
+        var modelId = 1,
+            url = "/api/tests?name=hello",
+            options = {
+              where: {
+                name: "hello"
+              }
+            };
+
+        describe("when model is NOT in local cache", function(){
+
+          beforeEach(function(){
+            server.respondWith(
+              "GET",
+              url,
+              [
+                200, {
+                  "Content-Type": "application/json"
+                },
+                JSON.stringify({
+                  "id": 1, "name": "hello"
+                })
+              ]);
+          });
+
+          //it.only("should return the first model matching the query", function(){
+          //  var store = new TestStore();
+          //  var options = {
+          //    where: {
+          //      name: "hello"
+          //    }
+          //  };
+          //
+          //  var result = store.findOne(options);
+          //  expect(result).to.be.undefined;
+          //  server.respond();
+          //  result = store.findOne(options);
+          //  expect(result.id).to.equal(modelId);
+          //  expect(server.requests[0].url).to.equal(url);
+          //});
+
+          it("should pass the query to the server", function(){
+            var store = new TestStore();
+
+            var result = store.findOne(options);
+            expect(result).to.be.undefined;
+            server.respond();
+            var request = server.requests[0];
+            expect(request.url).to.equal(url);
+          });
+
+          it.only("should return a single model", function(){
+            var store = new TestStore();
+
+            var result = store.findOne(options);
+            expect(result).to.be.undefined;
+            server.respond();
+            result = store.findOne(options);
+            expect(result.id).to.equal(modelId);
+          })
+
+        });
 
       });
 
