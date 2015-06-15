@@ -174,9 +174,14 @@ define(function(require) {
                 200, {
                   "Content-Type": "application/json"
                 },
-                JSON.stringify({
-                  "id": 1, "name": "hello"
-                })
+                JSON.stringify([
+                  {
+                    "id": 1, name: "goodbye"
+                  },
+                  {
+                    "id": 2, name: "hello"
+                  }
+                ])
               ]);
           });
 
@@ -206,7 +211,7 @@ define(function(require) {
             expect(request.url).to.equal(url);
           });
 
-          it.only("should return a single model", function(){
+          it("should return a single model", function(){
             var store = new TestStore();
 
             var result = store.findOne(options);
@@ -214,7 +219,17 @@ define(function(require) {
             server.respond();
             result = store.findOne(options);
             expect(result.id).to.equal(modelId);
-          })
+          });
+
+          it.only("should return the correct model", function(){
+            var store = new TestStore();
+
+            var result = store.findOne(options);
+            expect(result).to.be.undefined;
+            server.respond();
+            result = store.findOne(options);
+            expect(result.id).to.equal(2);
+          });
 
         });
 
