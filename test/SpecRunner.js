@@ -127,18 +127,11 @@ require.config({
 });
 
 define(function(require) {
-  //var chai = require('chai');
-  //var mocha = require('mocha');
-  //require('jquery');
-
-  // Chai
   expect = chai.expect;
-
   mocha.setup('bdd');
 
   require([
-    //'specs/model-tests.js',
-    'specs/collection-tests.js'
+    'specs/baseStore.spec.js'
   ], function(require) {
     mocha.run();
   });
