@@ -72,7 +72,8 @@ require.config({
     models: '/troposphere/assets/js/models',
     collections: '/troposphere/assets/js/collections',
     globals: '/troposphere/assets/js/globals',
-    stores: '/troposphere/assets/js/stores'
+    stores: '/troposphere/assets/js/stores',
+    test: '/test'
   },
 
   shim: {
@@ -131,7 +132,8 @@ define(function(require) {
   mocha.setup('bdd');
 
   require([
-    'specs/baseStore.spec.js'
+    'specs/baseStore/find.spec.js',
+    'specs/baseStore/findOne.spec.js'
   ], function(require) {
     mocha.run();
   });
