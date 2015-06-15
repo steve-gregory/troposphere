@@ -23,7 +23,15 @@ define(function(require) {
 
       TestCollection = Backbone.Collection.extend({
         model: TestModel,
-        url: "/api/tests"
+        url: "/api/tests",
+        parse: function(attr){
+          this.meta = {
+            count: attr.count,
+            next: attr.next,
+            previous: attr.previous
+          };
+          return attr;
+        }
       });
 
       TestStore = BaseStore.extend({
@@ -256,6 +264,15 @@ define(function(require) {
             var result = store.findOne(options);
             server.respond();
             result = store.findOne(options);
+            expect(server.requests.length).to.equal(1);
+          });
+
+          it("should not make a server request if all models already in cache", function(){
+            var store = new TestStore();
+
+            store.find();
+            server.respond();
+            var result = store.findOne(options);
             expect(server.requests.length).to.equal(1);
           });
 

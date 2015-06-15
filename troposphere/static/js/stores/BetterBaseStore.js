@@ -15,6 +15,8 @@ define(function(require) {
   }
 
   var Store = function(attributes, options) {
+    if(!this.collection) throw "collection must be defined";
+
     // models: primary local cache, stores a collection of models
     this.models = new Backbone.Collection();
 
@@ -135,9 +137,15 @@ define(function(require) {
       var queryString = buildQueryStringFromQueryParams(queryParams);
 
       queryString = queryString || "empty";
+      var queryResults = this.queryModels[queryString];
+      var emptyQueryResults = this.queryModels["empty"];
 
-      if(this.queryModels[queryString]) {
-        return this.queryModels[queryString];
+      if(queryResults) return queryResults;
+
+      if(emptyQueryResults && !emptyQueryResults.meta) throw "meta field must be specified";
+
+      if(emptyQueryResults && !emptyQueryResults.meta.next){
+        return new this.collection(emptyQueryResults.where(queryParams));
       }
 
       if(!this.isFetchingQuery[queryString]) {
