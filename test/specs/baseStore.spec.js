@@ -143,7 +143,7 @@ define(function(require) {
               ]);
           });
 
-          it.only("should return the model with that id", function(){
+          it("should return the model with that id", function(){
             var store = new TestStore();
             var result = store.find();
             expect(result).to.be.undefined;
@@ -182,7 +182,26 @@ define(function(require) {
                     "id": 2, name: "hello"
                   }
                 ])
-              ]);
+              ]
+            );
+
+            server.respondWith(
+              "GET",
+              "/api/tests",
+              [
+                200, {
+                  "Content-Type": "application/json"
+                },
+                JSON.stringify([
+                  {
+                    "id": 1, name: "goodbye"
+                  },
+                  {
+                    "id": 2, name: "hello"
+                  }
+                ])
+              ]
+            );
           });
 
           //it.only("should return the first model matching the query", function(){
@@ -218,10 +237,10 @@ define(function(require) {
             expect(result).to.be.undefined;
             server.respond();
             result = store.findOne(options);
-            expect(result.id).to.equal(modelId);
+            expect(result.id).to.equal(2);
           });
 
-          it.only("should return the correct model", function(){
+          it("should return the correct model", function(){
             var store = new TestStore();
 
             var result = store.findOne(options);
@@ -229,6 +248,15 @@ define(function(require) {
             server.respond();
             result = store.findOne(options);
             expect(result.id).to.equal(2);
+          });
+
+          it("should only make one call to the server", function(){
+            var store = new TestStore();
+
+            var result = store.findOne(options);
+            server.respond();
+            result = store.findOne(options);
+            expect(server.requests.length).to.equal(1);
           });
 
         });

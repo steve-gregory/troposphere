@@ -123,9 +123,10 @@ define(function(require) {
       }
     },
 
-    // Fetches the first page of data for the given set of queryParams
-    // Example: params = {page_size: 1000, search: 'featured'}
-    // will be converted to ?page_size=1000&search=featured
+    // ------------------
+    // Public API methods
+    // ------------------
+
     find: function(options){
       options = options || {};
       var queryParams = options.where || {};
@@ -142,7 +143,7 @@ define(function(require) {
       if(!this.isFetchingQuery[queryString]) {
         this.isFetchingQuery[queryString] = true;
         var models = new this.collection();
-        var url = queryString === "empty" ? "" : models.url + queryString;
+        var url = queryString === "empty" ? models.url : models.url + queryString;
         models.fetch({
           url: url
         }).done(function () {
@@ -167,43 +168,6 @@ define(function(require) {
         if(models) return models.findWhere(queryParams);
       }
     }
-
-    //findOneWhere: function(params){
-    //  var emptyModels = this.queryModels["empty"];
-    //  if(!emptyModels)  {
-    //    this.find();
-    //    return;
-    //  }
-    //
-    //  return emptyModels.first();
-    //
-    //  if(emptyModels.meta.next) {
-    //    return emptyModels.first();
-    //  }
-    //
-    //  if(!this.models) return this.find();
-    //
-    //  var keys = Object.keys(params);
-    //
-    //  var models = this.models.filter(function(model){
-    //    var matchesCriteria = true;
-    //
-    //    keys.forEach(function(key){
-    //      if(!matchesCriteria) return;
-    //
-    //      var tokens = key.split('.');
-    //      if(tokens.length === 1){
-    //        if(model.get(key) !== params[key]) matchesCriteria = false;
-    //      }else{
-    //        if(model.get(tokens[0])[tokens[1]] !== params[key]) matchesCriteria = false;
-    //      }
-    //    });
-    //
-    //    return matchesCriteria;
-    //  });
-    //
-    //  return new this.collection(models);
-    //}
 
   });
 
