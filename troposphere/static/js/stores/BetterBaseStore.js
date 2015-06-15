@@ -133,6 +133,8 @@ define(function(require) {
       // Build the query string
       var queryString = buildQueryStringFromQueryParams(queryParams);
 
+      queryString = queryString || "empty";
+
       if(this.queryModels[queryString]) {
         return this.queryModels[queryString];
       }
@@ -140,8 +142,9 @@ define(function(require) {
       if(!this.isFetchingQuery[queryString]) {
         this.isFetchingQuery[queryString] = true;
         var models = new this.collection();
+        var url = queryString === "empty" ? "" : models.url + queryString;
         models.fetch({
-          url: models.url + queryString
+          url: url
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
           this.queryModels[queryString] = models;
@@ -152,10 +155,55 @@ define(function(require) {
     },
 
     findOne: function (modelId) {
-      var model = this.models.get(modelId);
-      if(!model) return this.fetchModel(modelId);
-      return model;
+      if(typeof modelId !== "object") {
+        var model = this.models.get(modelId);
+        if(!model) return this.fetchModel(modelId);
+        return model;
+      }else{
+        var queryParams = modelId.where;
+        var queryString = buildQueryStringFromQueryParams(queryParams);
+        if(!queryString) queryString = "empty";
+        var models = this.find(modelId);
+        if(models) return models.findWhere(queryParams);
+      }
     }
+
+    //findOneWhere: function(params){
+    //  var emptyModels = this.queryModels["empty"];
+    //  if(!emptyModels)  {
+    //    this.find();
+    //    return;
+    //  }
+    //
+    //  return emptyModels.first();
+    //
+    //  if(emptyModels.meta.next) {
+    //    return emptyModels.first();
+    //  }
+    //
+    //  if(!this.models) return this.find();
+    //
+    //  var keys = Object.keys(params);
+    //
+    //  var models = this.models.filter(function(model){
+    //    var matchesCriteria = true;
+    //
+    //    keys.forEach(function(key){
+    //      if(!matchesCriteria) return;
+    //
+    //      var tokens = key.split('.');
+    //      if(tokens.length === 1){
+    //        if(model.get(key) !== params[key]) matchesCriteria = false;
+    //      }else{
+    //        if(model.get(tokens[0])[tokens[1]] !== params[key]) matchesCriteria = false;
+    //      }
+    //    });
+    //
+    //    return matchesCriteria;
+    //  });
+    //
+    //  return new this.collection(models);
+    //}
 
   });
 
