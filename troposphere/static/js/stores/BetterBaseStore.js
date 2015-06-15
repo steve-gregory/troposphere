@@ -19,6 +19,7 @@ define(function(require) {
 
     // models: primary local cache, stores a collection of models
     this.models = new Backbone.Collection();
+    this.modelsById = {};
 
     // isFetching: True or false depending on whether this.models is being
     // fetch from the server. Used to prevent multiple server calls for the same data.
@@ -103,6 +104,12 @@ define(function(require) {
         }).done(function(){
           this.isFetching = false;
           this.models = models;
+
+          // add models to the id dictionary
+          models.forEach(function(model){
+            this.modelsById[model.id] = model;
+          }.bind(this));
+
           if(this.pollingEnabled) {
             this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
           }
@@ -120,6 +127,7 @@ define(function(require) {
         model.fetch().done(function(){
           this.isFetchingModel[modelId] = false;
           this.models.add(model);
+          this.modelsById[model.id] = model;
           this.emitChange();
         }.bind(this));
       }
@@ -157,6 +165,12 @@ define(function(require) {
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
           this.queryModels[queryString] = models;
+
+          // add models to the id dictionary
+          models.forEach(function(model){
+            this.modelsById[model.id] = model;
+          }.bind(this));
+
           this.models.add(models.models);
           this.emitChange();
         }.bind(this));
@@ -165,7 +179,7 @@ define(function(require) {
 
     findOne: function (modelId) {
       if(typeof modelId !== "object") {
-        var model = this.models.get(modelId);
+        var model = this.modelsById[modelId];
         if(!model) return this.fetchModel(modelId);
         return model;
       }else{

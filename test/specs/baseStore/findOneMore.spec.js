@@ -1,8 +1,7 @@
 define(function(require) {
   "use strict";
 
-  var Backbone = require('backbone'),
-      BaseStore = require('stores/BetterBaseStore'),
+  var BaseStore = require('stores/BetterBaseStore'),
       TestStore = require('test/utils/TestStore'),
       server;
 
@@ -17,7 +16,74 @@ define(function(require) {
     });
 
     describe("when passed an id", function(){
-      var modelId = 1;
+      var modelId = 1,
+          store;
+
+      describe("and we know there are no more results", function(){
+        beforeEach(function(){
+          server.respondWith(
+            "GET",
+            "/api/tests",
+            [
+              200, {
+                "Content-Type": "application/json"
+              },
+              JSON.stringify({
+                count: 2,
+                next: null,
+                previous: null,
+                results: [
+                  {"id": 1, "name": "hello"},
+                  {"id": 2, "name": "world"}
+                ]
+              })
+            ]);
+
+          store = new TestStore();
+          store.find();
+          server.respond();
+        });
+
+        it("should return the model from local cache", function(){
+          var model = store.findOne(2);
+          expect(model.id).to.equal(2);
+          expect(server.requests.length).to.equal(1);
+        });
+      });
+
+      describe("and we know there are more results", function(){
+
+        beforeEach(function(){
+          server.respondWith(
+            "GET",
+            "/api/tests",
+            [
+              200, {
+                "Content-Type": "application/json"
+              },
+              JSON.stringify({
+                count: 4,
+                next: "/api/tests?page=2",
+                previous: null,
+                results: [
+                  {"id": 1, "name": "hello", description: "hello description"},
+                  {"id": 2, "name": "world", description: "world description"}
+                ]
+              })
+            ]);
+
+          store = new TestStore();
+          store.find();
+          server.respond();
+        });
+
+        it("should fetch the model from the server", function(){
+          var model = store.findOne(2);
+          expect(model.id).to.equal(2);
+          expect(server.requests.length).to.equal(1);
+        });
+
+      });
 
       describe("when model is NOT in local cache", function(){
 

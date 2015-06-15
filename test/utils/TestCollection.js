@@ -15,7 +15,7 @@ define(function(require) {
           next: attr.next,
           previous: attr.previous
         };
-        return attr;
+        return attr.results;
       }
     });
 

@@ -26,9 +26,15 @@ define(function(require) {
             200, {
               "Content-Type": "application/json"
             },
-            JSON.stringify([
-              { "id": 12, "comment": "Hey there" }
-            ])
+            JSON.stringify({
+                count: 2,
+                next: null,
+                previous: null,
+                results: [
+                  {"id": 1, "name": "hello"},
+                  {"id": 2, "name": "world"}
+                ]
+              })
           ]);
       });
 
@@ -38,7 +44,7 @@ define(function(require) {
         expect(results).to.be.undefined;
         server.respond();
         results = store.find();
-        expect(results.length).to.equal(1);
+        expect(results.length).to.equal(2);
         expect(server.requests[0].url).to.equal("/api/tests");
       });
     });
@@ -54,9 +60,15 @@ define(function(require) {
             200, {
               "Content-Type": "application/json"
             },
-            JSON.stringify([
-              { "id": 12, "comment": "Hey there" }
-            ])
+            JSON.stringify({
+                count: 2,
+                next: null,
+                previous: null,
+                results: [
+                  {"id": 1, "name": "hello"},
+                  {"id": 2, "name": "world"}
+                ]
+              })
           ]);
       });
 
@@ -72,7 +84,7 @@ define(function(require) {
         expect(results).to.be.undefined;
         server.respond();
         results = store.find(options);
-        expect(results.length).to.equal(1);
+        expect(results.length).to.equal(2);
         expect(server.requests[0].url).to.equal(url);
       })
     });
