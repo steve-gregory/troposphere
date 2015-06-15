@@ -2,7 +2,16 @@ define(function(require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      BaseStore = require('stores/BetterBaseStore');
+      BaseStore = require('stores/BetterBaseStore'),
+      server;
+
+  before(function(){
+    server = sinon.fakeServer.create();
+  });
+
+  after(function(){
+    server.restore();
+  });
 
   describe("BaseStore", function () {
     var TestModel, TestCollection, TestStore;
@@ -23,8 +32,28 @@ define(function(require) {
     });
 
     describe("#find", function(){
-      it("should fetch models from server if none exist", function () {
+
+      beforeEach(function(){
+        server.respondWith(
+          "GET",
+          "/api/tests",
+          [
+            200, {
+              "Content-Type": "application/json"
+            },
+            JSON.stringify([
+              { "id": 12, "comment": "Hey there" }
+            ])
+          ]);
+      });
+
+      it("should fetch models from server if none exist", function (done) {
         var collection = new TestCollection();
+        collection.fetch().done(function(){
+          console.log(collection.toJSON());
+          done();
+        });
+        server.respond();
         expect(collection.url).to.equal("/api/tests");
       });
     });
