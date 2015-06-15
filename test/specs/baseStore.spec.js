@@ -107,29 +107,59 @@ define(function(require) {
       describe("when passed an id", function(){
         var modelId = 1;
 
-        beforeEach(function(){
-          server.respondWith(
-            "GET",
-            "/api/tests/1",
-            [
-              200, {
-                "Content-Type": "application/json"
-              },
-              JSON.stringify({
-                "id": 1, "comment": "Hey there"
-              })
-            ]);
+        describe("when model is NOT in local cache", function(){
+
+          beforeEach(function(){
+            server.respondWith(
+              "GET",
+              "/api/tests/1",
+              [
+                200, {
+                  "Content-Type": "application/json"
+                },
+                JSON.stringify({
+                  "id": 1, "comment": "Hey there"
+                })
+              ]);
+          });
+
+          it("should return the model with that id", function(){
+            var store = new TestStore();
+            var result = store.findOne(modelId);
+            expect(result).to.be.undefined;
+            server.respond();
+            result = store.findOne(modelId);
+            expect(result.id).to.equal(modelId);
+            expect(server.requests[0].url).to.equal("/api/tests/1");
+          });
         });
 
-        it.only("should return the model with that id", function(){
-          var store = new TestStore();
-          var result = store.findOne(modelId);
-          expect(result).to.be.undefined;
-          server.respond();
-          result = store.findOne(modelId);
-          expect(result.id).to.equal(modelId);
-          expect(server.requests[0].url).to.equal("/api/tests/1");
-        });
+        describe("when model is in local cache", function(){
+
+          beforeEach(function(){
+            server.respondWith(
+              "GET",
+              "/api/tests",
+              [
+                200, {
+                  "Content-Type": "application/json"
+                },
+                JSON.stringify([
+                  { "id": 1, "comment": "Hey there" }
+                ])
+              ]);
+          });
+
+          it.only("should return the model with that id", function(){
+            var store = new TestStore();
+            var result = store.find();
+            expect(result).to.be.undefined;
+            server.respond();
+            result = store.findOne(modelId);
+            expect(result.id).to.equal(modelId);
+          });
+        })
+
       });
 
       it("should return a single item");
