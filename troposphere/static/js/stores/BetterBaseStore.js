@@ -230,6 +230,68 @@ define(function(require) {
       return queryResults;
     },
 
+    findMoreWhere: function(queryParams){
+      queryParams = queryParams || {};
+      if(Object.keys(queryParams).length === 0) {
+        console.warn("store.findMoreWhere called without arguments: delegating behavior to store.findMore");
+        return this.findMore();
+      }
+
+      // Build the query string
+      var queryString = buildQueryStringFromQueryParams(queryParams);
+
+      // Return the query if it already exists
+      var queryResults = this.modelsByQuery[queryString];
+
+      if(!queryResults) {
+        console.warn(
+          "store.findMoreWhere called before store.findWhere: delegating behavior to store.findWhere to get initial results"
+        );
+        return this.findWhere(queryParams);
+      }
+
+      if(!queryResults.meta) {
+        throw new Error(
+          "missing 'meta' field on collection: you need to set this in the collections " +
+          "parse method before you can call store.findMoreWhere"
+        );
+      }
+
+      if(!queryResults.meta.next) {
+        console.warn(
+          "there are no more results for this collection in store.findMoreWhere: delegating behavior to store.findWhere"
+        );
+        return this.findWhere(queryParams);
+      }
+
+      if(!this.isFetchingQuery[queryString]) {
+        // signal that we are currently fetching this query to prevent it from being fetched multiple times
+        this.isFetchingQuery[queryString] = true;
+
+        // instantiate the collection and fetch it
+        var models = new this.collection();
+        models.fetch({
+          url: queryResults.meta.next
+        }).done(function () {
+          // signal that we have finished fetching this query
+          this.isFetchingQuery[queryString] = false;
+
+          // add models to the query dictionary
+          queryResults.add(models.models);
+
+          // add models to the id dictionary
+          models.forEach(function(model){
+            this.modelsById[model.id] = model;
+          }.bind(this));
+
+          // let components know we have new data
+          this.emitChange();
+        }.bind(this));
+      }
+
+      return queryResults;
+    },
+
     findWhere: function(queryParams){
       queryParams = queryParams || {};
       if(Object.keys(queryParams).length === 0) {

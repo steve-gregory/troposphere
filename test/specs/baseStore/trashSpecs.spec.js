@@ -5,7 +5,7 @@ define(function(require) {
       TestStore = require('test/utils/TestStore'),
       server;
 
-  describe("BaseStore#findOne", function(){
+  describe("BaseStore#findOneWhere", function(){
 
     beforeEach(function(){
       server = sinon.fakeServer.create();
