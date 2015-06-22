@@ -45,7 +45,7 @@ define(function (require) {
     render: function () {
       var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
       var quotas = stores.QuotaStore.getAll();
-      var statuses = stores.QuotaStatusStore.getAll();
+      var statuses = stores.QuotaStatusStore.find();
 
       if(!quotaRequest || !quotas || !statuses) return <div className="loading"></div>;
 

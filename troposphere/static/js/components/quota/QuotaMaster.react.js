@@ -15,7 +15,7 @@ define(function (require) {
       var requests = stores.QuotaRequestStore.findWhere({
             'status.name': 'pending'
           }),
-          statuses = stores.QuotaStatusStore.getAll();
+          statuses = stores.QuotaStatusStore.find();
 
       if(!requests || !statuses) return <div className="loading"></div>;
 

@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var BaseStore = require('stores/BaseStore'),
+  var BaseStore = require('stores/BetterBaseStore'),
       QuotaStatusCollection = require('collections/QuotaStatusCollection');
 
   var QuotaStatusStore = BaseStore.extend({
