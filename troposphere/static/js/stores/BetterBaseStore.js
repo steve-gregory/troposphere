@@ -18,24 +18,26 @@ define(function(require) {
     if(!this.collection) throw "collection must be defined";
 
     // models: primary local cache, stores a collection of models
-    this.models = new Backbone.Collection();
-    this.modelsById = {};
-
+    //
     // isFetching: True or false depending on whether this.models is being
     // fetch from the server. Used to prevent multiple server calls for the same data.
+    this.models = new Backbone.Collection();
     this.isFetching = false;
 
-    // isFetchingQuery: stores query strings as keys and denotes whether that data is already
-    // being fetched from the server. Used to prevent multiple server calls for the same data.
+    // modelsById: dictionary that uses ids as keys and stores the resulting model as the value
     //
-    // queryModels: dictionary that uses query strings as keys and stores the resulting
-    // collection as the value
-    this.isFetchingQuery = {};
-    this.queryModels = {};
-
     // isFetchingModel: dictionary of ids as keys and individual models as the values.  Used
     // when we need to make sure to fetch an individual model
+    this.modelsById = {};
     this.isFetchingModel = {};
+
+    // modelsByQuery: dictionary that uses query strings as keys and stores the resulting
+    // collection as the value
+    //
+    // isFetchingQuery: stores query strings as keys and denotes whether that data is already
+    // being fetched from the server. Used to prevent multiple server calls for the same data.
+    this.modelsByQuery = {};
+    this.isFetchingQuery = {};
 
     this.initialize.apply(this, arguments);
   };
@@ -63,6 +65,7 @@ define(function(require) {
     // --------------
 
     add: function(model){
+      // todo: look model up by id,
       this.models.add(model);
     },
 
@@ -92,15 +95,9 @@ define(function(require) {
       if (!this.models && !this.isFetching) {
         this.isFetching = true;
         var models = new this.collection();
-        var queryString = "";
-
-        // Build the query string if queryParameters have been provided
-        if(this.queryParams){
-          queryString = buildQueryStringFromQueryParams(this.queryParams);
-        }
 
         models.fetch({
-          url: _.result(models, 'url') + queryString
+          url: _.result(models, 'url')
         }).done(function(){
           this.isFetching = false;
           this.models = models;
@@ -145,8 +142,8 @@ define(function(require) {
       var queryString = buildQueryStringFromQueryParams(queryParams);
 
       queryString = queryString || "empty";
-      var queryResults = this.queryModels[queryString];
-      var emptyQueryResults = this.queryModels["empty"];
+      var queryResults = this.modelsByQuery[queryString];
+      var emptyQueryResults = this.modelsByQuery["empty"];
 
       if(queryResults) return queryResults;
 
@@ -164,7 +161,7 @@ define(function(require) {
           url: url
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
-          this.queryModels[queryString] = models;
+          this.modelsByQuery[queryString] = models;
 
           // add models to the id dictionary
           models.forEach(function(model){
