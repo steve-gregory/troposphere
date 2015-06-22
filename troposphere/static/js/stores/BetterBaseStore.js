@@ -65,6 +65,7 @@ define(function(require) {
     // --------------
 
     add: function(m){
+      // todo: store model by cid if no id
       var modelData = m.toJSON();
       var model = this.modelsById[m.id];
       if(model){
@@ -74,17 +75,23 @@ define(function(require) {
       }
     },
 
-    update: function(model){
-      var existingModel = this.models.get(model);
-      if(existingModel) {
-        this.models.add(model, {merge: true});
-      }else{
-        console.error("Model doesn't exist: " + model.id || model.cid);
+    update: function(m){
+      // todo: check if model is already stored by cid and store by id instead if it has an id
+      var modelData = m.toJSON();
+      var model = this.modelsById[m.id];
+      if(!model){
+        console.warn("attempting to update a model without an id: ignoring request", m);
+        return;
       }
+      model.set(modelData);
     },
 
-    remove: function(model){
-      this.models.remove(model);
+    remove: function(m){
+      if(!m.id) {
+        console.warn("attempting to remove a model without an id: ignoring request", m);
+        return;
+      }
+      delete this.modelsById[m.id];
     },
 
     // --------------
