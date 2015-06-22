@@ -52,13 +52,17 @@ define(function(require) {
       if(this.disableServerParamMapping) return queryParams;
 
       var queryParamMap = this.queryParamMap;
-      if(!this.queryParamMap) throw new Error("must define a queryParamMap in order to make server side filtering calls");
+      if(!this.queryParamMap) {
+        throw new Error(
+          "must define a queryParamMap in order to make server side filtering calls: " + JSON.stringify(queryParams)
+        );
+      }
 
       var serverParams = {};
       Object.keys(queryParams).forEach(function(localParam){
         var value = queryParams[localParam];
         var serverParam = queryParamMap[localParam];
-        if(!serverParam) throw new Error("queryParamMap missing server mapping for:", localParam);
+        if(!serverParam) throw new Error("queryParamMap missing server mapping for: " + localParam);
         serverParams[serverParam] = value;
       });
       return serverParams;
