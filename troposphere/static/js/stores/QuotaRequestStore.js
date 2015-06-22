@@ -7,7 +7,11 @@ define(function (require) {
       stores = require('stores');
 
   var QuotaRequestStore = BaseStore.extend({
-    collection: QuotaRequestCollection
+    collection: QuotaRequestCollection,
+
+    queryParamMap: {
+      "status.name": "status__name"
+    }
   });
 
   var store = new QuotaRequestStore();
