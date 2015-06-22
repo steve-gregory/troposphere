@@ -96,7 +96,7 @@ define(function(require) {
     initialize: function(){},
 
     // Fetch the first page of data from the server
-    fetchCollection: function () {
+    _fetchCollection: function () {
       if (!this.models && !this.isFetching) {
         this.isFetching = true;
         var models = new this.collection();
@@ -152,10 +152,6 @@ define(function(require) {
       var queryResults = this.modelsByQuery["empty"];
       if(queryResults) return queryResults;
 
-      //if(!queryResults.meta) {
-      //  throw "missing 'meta' field on collection: you need to set this in the collections parse method";
-      //}
-
       if(!this.isFetchingQuery["empty"]) {
         // signal that we are currently fetching this query to prevent it from being fetched multiple times
         this.isFetchingQuery["empty"] = true;
@@ -180,6 +176,58 @@ define(function(require) {
           this.emitChange();
         }.bind(this));
       }
+    },
+
+    findMore: function(){
+      var queryResults = this.modelsByQuery["empty"];
+
+      if(!queryResults) {
+        console.warn(
+          "store.findMore called before store.find: delegating behavior to store.find to get initial results"
+        );
+        return this.find();
+      }
+
+      if(!queryResults.meta) {
+        throw new Error(
+          "missing 'meta' field on collection: you need to set this in the collections " +
+          "parse method before you can call store.findMore"
+        );
+      }
+
+      if(!queryResults.meta.next) {
+        console.warn(
+          "there are no more results for this collection in store.findMore: delegating behavior to store.find"
+        );
+        return this.find();
+      }
+
+      if(!this.isFetchingQuery["empty"]) {
+        // signal that we are currently fetching this query to prevent it from being fetched multiple times
+        this.isFetchingQuery["empty"] = true;
+
+        // instantiate the collection and fetch it
+        var models = new this.collection();
+        models.fetch({
+          url: queryResults.meta.next
+        }).done(function () {
+          // signal that we have finished fetching this query
+          this.isFetchingQuery["empty"] = false;
+
+          // add models to the query dictionary
+          queryResults.add(models.models);
+
+          // add models to the id dictionary
+          models.forEach(function(model){
+            this.modelsById[model.id] = model;
+          }.bind(this));
+
+          // let components know we have new data
+          this.emitChange();
+        }.bind(this));
+      }
+
+      return queryResults;
     },
 
     findWhere: function(queryParams){

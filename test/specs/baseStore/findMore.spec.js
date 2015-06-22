@@ -72,6 +72,9 @@ define(function(require) {
         results = store.findMore();
         expect(results.length).to.equal(1);
 
+        // get the next page from the server
+        server.respond();
+
         // try again - model should exist this time
         results = store.find();
         expect(results.length).to.equal(2);

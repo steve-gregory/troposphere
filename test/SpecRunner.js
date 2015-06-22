@@ -134,7 +134,8 @@ define(function(require) {
   require([
     'specs/baseStore/find.spec.js',
     'specs/baseStore/findWhere.spec.js',
-    'specs/baseStore/findOne.spec.js'
+    'specs/baseStore/findOne.spec.js',
+    'specs/baseStore/findMore.spec.js'
   ], function(require) {
     mocha.run();
   });
