@@ -6,7 +6,7 @@ define(function(require) {
       serverRequests = require('test/utils/serverRequests'),
       server;
 
-  describe("BaseStore#find", function(){
+  describe("BaseStore#findMore", function(){
 
     beforeEach(function(){
       server = sinon.fakeServer.create();
@@ -16,7 +16,7 @@ define(function(require) {
       server.restore();
     });
 
-    describe("when result does not exist", function () {
+    describe("when no results no exist", function () {
 
       beforeEach(function(){
         server.respondWith(
@@ -28,17 +28,33 @@ define(function(require) {
             },
             JSON.stringify({
               count: 2,
-              next: null,
+              next: "/api/tests?page=2",
               previous: null,
               results: [
-                {"id": 1, "name": "hello"},
+                {"id": 1, "name": "hello"}
+              ]
+            })
+          ]);
+
+        server.respondWith(
+          "GET",
+          "/api/tests?page=2",
+          [
+            200, {
+              "Content-Type": "application/json"
+            },
+            JSON.stringify({
+              count: 2,
+              next: null,
+              previous: "/api/tests",
+              results: [
                 {"id": 2, "name": "world"}
               ]
             })
           ]);
       });
 
-      it("should fetch the result and return it during the next call", function () {
+      it("should fetch the first, then second page of data", function () {
         var store = new TestStore();
 
         // first fetch, should not exist
@@ -50,22 +66,18 @@ define(function(require) {
 
         // try again - model should exist this time
         results = store.find();
+        expect(results.length).to.equal(1);
+
+        // fetch the next page - should return what it current has
+        results = store.findMore();
+        expect(results.length).to.equal(1);
+
+        // try again - model should exist this time
+        results = store.find();
         expect(results.length).to.equal(2);
+
         expect(server.requests[0].url).to.equal("/api/tests");
-      });
-    });
-
-    describe("when result exists", function () {
-
-      // todo: add the model to the store using dispatcher
-
-      it("should return the result", function () {
-        var store = new TestStore();
-
-        // first fetch, should exist
-        var results = store.find();
-        expect(results.length).to.equal(2);
-        expect(server.requests[0].url).to.equal("/api/tests");
+        expect(server.requests[1].url).to.equal("/api/tests?page=2");
       });
     });
 
