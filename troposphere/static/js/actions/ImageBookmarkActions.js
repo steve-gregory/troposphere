@@ -26,7 +26,7 @@ define(function (require) {
       if(!params.image) throw new Error("Missing image");
 
       var image = params.image,
-          imageBookmark = stores.ImageBookmarkStore.findOne({
+          imageBookmark = stores.ImageBookmarkStore.findOneWhere({
             'image.id': image.id
           });
 

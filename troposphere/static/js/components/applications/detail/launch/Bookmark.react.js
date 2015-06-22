@@ -9,7 +9,7 @@ define(function (require) {
     toggleFavorite: function (e) {
       e.preventDefault();
       var image = this.props.application,
-          imageBookmark = stores.ImageBookmarkStore.findOne({
+          imageBookmark = stores.ImageBookmarkStore.findOneWhere({
             'image.id': image.id
           });
 
@@ -22,7 +22,7 @@ define(function (require) {
 
     render: function () {
       var image = this.props.application,
-          isFavorited = stores.ImageBookmarkStore.findOne({
+          isFavorited = stores.ImageBookmarkStore.findOneWhere({
             'image.id': image.id
           }),
           img;
