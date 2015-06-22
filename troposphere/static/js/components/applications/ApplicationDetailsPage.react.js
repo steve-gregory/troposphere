@@ -12,7 +12,7 @@ define(function (require) {
     mixins: [Router.State],
 
     renderBody: function(){
-      var application = stores.ApplicationStore.get(Number(this.getParams().imageId)),
+      var application = stores.ApplicationStore.findOne(Number(this.getParams().imageId)),
           tags = stores.TagStore.getAll(),
           userLoggedIn = context.profile,
           providers = userLoggedIn ? stores.ProviderStore.find() : null,

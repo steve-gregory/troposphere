@@ -27,7 +27,7 @@ define(function (require) {
     getState: function() {
       var machine = this.props.machine,
           current_app = this.props.application,
-          applications = stores.ApplicationStore.getAll(),
+          applications = stores.ApplicationStore.find(),
           providers = stores.ProviderStore.find(),
           all_users = stores.UserStore.getAll(),
           //licenses = stores.LicenseStore.getAll(), //Future

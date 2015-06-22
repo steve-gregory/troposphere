@@ -23,7 +23,7 @@ define(function (require) {
           identities = stores.IdentityStore.find(),
           projects = stores.ProjectStore.find(),
           maintenanceMessages = stores.MaintenanceMessageStore.find(),
-          applications = stores.ApplicationStore.getAll(),
+          applications = stores.ApplicationStore.find(),
           instances = stores.InstanceStore.getAll(),
           volumes = stores.VolumeStore.getAll(),
           sizes = stores.SizeStore.getAll();

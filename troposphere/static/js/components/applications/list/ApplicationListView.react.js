@@ -44,11 +44,11 @@ define(function (require) {
           images;
 
       if(query){
-        images = stores.ApplicationStore.fetchWhere({
+        images = stores.ApplicationStore.findWhere({
           search: query
         })
       }else{
-        images = stores.ApplicationStore.getAll();
+        images = stores.ApplicationStore.find();
       }
 
       if(images && images.meta.next !== this.state.nextUrl){
@@ -73,11 +73,11 @@ define(function (require) {
 
       // Get the current collection
       if(query){
-        images = stores.ApplicationStore.fetchWhere({
+        images = stores.ApplicationStore.findWhere({
           search: query
         });
       }else{
-        images = stores.ApplicationStore.getAll();
+        images = stores.ApplicationStore.find();
       }
 
       this.setState({
@@ -87,11 +87,11 @@ define(function (require) {
 
       // Fetch the next page of data
       if(query){
-        stores.ApplicationStore.fetchMoreWhere({
+        stores.ApplicationStore.findMoreWhere({
           search: query
         });
       }else{
-        stores.ApplicationStore.fetchMore();
+        stores.ApplicationStore.findMore();
       }
     },
 
@@ -126,7 +126,7 @@ define(function (require) {
     // --------------
 
     renderFeaturedImages: function(){
-      var images = stores.ApplicationStore.fetchWhere({
+      var images = stores.ApplicationStore.findWhere({
             tags__name: 'Featured'
           }),
           tags = this.props.tags;
@@ -242,11 +242,11 @@ define(function (require) {
           images;
 
       if(query){
-        images = stores.ApplicationStore.fetchWhere({
+        images = stores.ApplicationStore.findWhere({
           search: query
         });
       }else{
-        images = stores.ApplicationStore.getAll();
+        images = stores.ApplicationStore.find();
       }
 
 

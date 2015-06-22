@@ -104,7 +104,7 @@ define(function (require) {
             iconSize = 63,
             type = stores.ProfileStore.get().get('icon_set'),
             imageId = instance.get('application_id'),
-            application = imageId ? stores.ApplicationStore.get(imageId) : null,
+            application = imageId ? stores.ApplicationStore.findOne(imageId) : null,
             applicationName = application ? application.get('name') : "[image no longer exists]",
             applicationLink;
 

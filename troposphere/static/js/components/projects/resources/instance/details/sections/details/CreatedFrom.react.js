@@ -14,7 +14,7 @@ define(function (require) {
 
     render: function () {
       var instance = this.props.instance,
-          image = stores.ApplicationStore.get(instance.get('image').id);
+          image = stores.ApplicationStore.findOne(instance.get('image').id);
 
       if(!image){
         return (

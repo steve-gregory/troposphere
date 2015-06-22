@@ -9,7 +9,7 @@ define(function (require) {
 
     renderBody: function(){
       var profile = stores.ProfileStore.get(),
-          images = stores.ApplicationStore.fetchWhere({
+          images = stores.ApplicationStore.findWhere({
             created_by__username: profile.get('username')
           }),
           tags = stores.TagStore.getAll(),

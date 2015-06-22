@@ -16,7 +16,7 @@ define(function (require) {
 
       var images = this.models.map(function(ib){
         // this will cause the image to be fetched if we don't yet have it
-        var image = stores.ApplicationStore.get(ib.get('image').id);
+        var image = stores.ApplicationStore.findOne(ib.get('image').id);
         if(!image) haveAllImages = false;
         return image;
       });

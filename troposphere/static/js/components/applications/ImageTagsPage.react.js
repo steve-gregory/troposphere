@@ -8,7 +8,7 @@ define(function (require) {
 
     getState: function() {
       return {
-        applications: stores.ApplicationStore.getAll(),
+        applications: stores.ApplicationStore.find(),
         tags: stores.TagStore.getAll()
       };
     },
