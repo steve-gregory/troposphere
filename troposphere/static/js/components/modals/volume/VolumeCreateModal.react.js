@@ -16,7 +16,7 @@ define(
 
       isSubmittable: function(){
         var identities = stores.IdentityStore.find(),
-            maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+            maintenanceMessages = stores.MaintenanceMessageStore.find(),
             volumes = stores.VolumeStore.getAll();
 
         if(!identities || !maintenanceMessages || !volumes) return false;

@@ -65,7 +65,7 @@ define(function (require) {
     // --------------
 
     render: function () {
-      var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
+      var maintenanceMessages = stores.MaintenanceMessageStore.find() || new Backbone.Collection(),
           marginTop = maintenanceMessages.length * 24 + "px";
 
       return (

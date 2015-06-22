@@ -21,7 +21,7 @@ define(function (require) {
     };
     // Mock out the maintenance message store
     stores.MaintenanceMessageStore = {
-      getAll: function(){},
+      find: function(){},
       addChangeListener: function(){},
       removeChangeListener: function(){}
     };

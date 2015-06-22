@@ -21,8 +21,8 @@ define(function(require) {
     //
     // isFetching: True or false depending on whether this.models is being
     // fetch from the server. Used to prevent multiple server calls for the same data.
-    this.models = new Backbone.Collection();
-    this.isFetching = false;
+    //this.models = new Backbone.Collection();
+    //this.isFetching = false;
 
     // modelsById: dictionary that uses ids as keys and stores the resulting model as the value
     //
@@ -104,6 +104,8 @@ define(function(require) {
 
     // Fetch the first page of data from the server
     _fetchCollection: function () {
+      throw new Error("don't use me bro!");
+
       if (!this.models && !this.isFetching) {
         this.isFetching = true;
         var models = new this.collection();

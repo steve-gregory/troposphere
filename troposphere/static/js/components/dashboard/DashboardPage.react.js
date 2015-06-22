@@ -22,7 +22,7 @@ define(function (require) {
       var providers = stores.ProviderStore.find(),
           identities = stores.IdentityStore.find(),
           projects = stores.ProjectStore.find(),
-          maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+          maintenanceMessages = stores.MaintenanceMessageStore.find(),
           applications = stores.ApplicationStore.getAll(),
           instances = stores.InstanceStore.getAll(),
           volumes = stores.VolumeStore.getAll(),

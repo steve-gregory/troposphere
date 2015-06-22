@@ -22,7 +22,7 @@ define(function (require) {
 
     isSubmittable: function(){
       var identities = stores.IdentityStore.find(),
-          maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+          maintenanceMessages = stores.MaintenanceMessageStore.find(),
           sizes = stores.SizeStore.getAll(),
           instances = stores.InstanceStore.getAll(),
           identityId = this.state.identityId,
@@ -101,7 +101,7 @@ define(function (require) {
       var image = this.props.application,
           machines = image.get('provider_images'),
           identities = stores.IdentityStore.find(),
-          //maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+          //maintenanceMessages = stores.MaintenanceMessageStore.find(),
           //sizes = stores.SizeStore.getAll(),
           //instances = stores.InstanceStore.getAll(),
           projects = stores.ProjectStore.find(),
