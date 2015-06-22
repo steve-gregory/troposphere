@@ -1,7 +1,7 @@
 define(function (require) {
 
   var Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
+      BaseStore = require('stores/BetterBaseStore'),
       QuotaRequestCollection = require('collections/QuotaRequestCollection'),
       QuotaRequestConstants = require('constants/QuotaRequestConstants'),
       stores = require('stores');
