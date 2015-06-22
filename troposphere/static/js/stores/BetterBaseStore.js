@@ -64,9 +64,14 @@ define(function(require) {
     // CRUD functions
     // --------------
 
-    add: function(model){
-      // todo: look model up by id,
-      this.models.add(model);
+    add: function(m){
+      var modelData = m.toJSON();
+      var model = this.modelsById[m.id];
+      if(model){
+        model.set(modelData);
+      }else{
+        this.modelsById[m.id] = m;
+      }
     },
 
     update: function(model){
@@ -91,7 +96,7 @@ define(function(require) {
     initialize: function(){},
 
     // Fetch the first page of data from the server
-    fetchModels: function () {
+    fetchCollection: function () {
       if (!this.models && !this.isFetching) {
         this.isFetching = true;
         var models = new this.collection();
@@ -115,16 +120,25 @@ define(function(require) {
       }
     },
 
-    fetchModel: function(modelId){
+    _fetchModel: function(modelId){
+      // don't fetch the model again if we're already fetching it
       if(!this.isFetchingModel[modelId]){
+
+        // signal that we're fetching the model
         this.isFetchingModel[modelId] = true;
+
+        // instantiate the model and fetch it
         var model = new this.collection.prototype.model({
           id: modelId
         });
         model.fetch().done(function(){
+          // signal that we're done fetching the model
           this.isFetchingModel[modelId] = false;
-          this.models.add(model);
+
+          // add the model to the id dictionary
           this.modelsById[model.id] = model;
+
+          // let components know we have new data
           this.emitChange();
         }.bind(this));
       }
@@ -149,7 +163,7 @@ define(function(require) {
         // instantiate the collection and fetch it
         var models = new this.collection();
         models.fetch({
-          url: models.url
+          url: _.result(models, 'url')
         }).done(function () {
           // signal that we have finished fetching this query
           this.isFetchingQuery["empty"] = false;
@@ -178,17 +192,23 @@ define(function(require) {
       // Build the query string
       var queryString = buildQueryStringFromQueryParams(queryParams);
 
+      // Return the query if it already exists
       var queryResults = this.modelsByQuery[queryString];
       if(queryResults) return queryResults;
 
       if(!this.isFetchingQuery[queryString]) {
+        // signal that we are currently fetching this query to prevent it from being fetched multiple times
         this.isFetchingQuery[queryString] = true;
+
+        // instantiate the collection and fetch it
         var models = new this.collection();
-        var url = queryString === "empty" ? models.url : models.url + queryString;
         models.fetch({
-          url: url
+          url: _.result(models, 'url') + queryString
         }).done(function () {
+          // signal that we have finished fetching this query
           this.isFetchingQuery[queryString] = false;
+
+          // add models to the query dictionary
           this.modelsByQuery[queryString] = models;
 
           // add models to the id dictionary
@@ -196,7 +216,7 @@ define(function(require) {
             this.modelsById[model.id] = model;
           }.bind(this));
 
-          this.models.add(models.models);
+          // let components know we have new data
           this.emitChange();
         }.bind(this));
       }
@@ -204,17 +224,23 @@ define(function(require) {
     },
 
     findOne: function (modelId) {
-      if(typeof modelId !== "object") {
-        var model = this.modelsById[modelId];
-        if(!model) return this.fetchModel(modelId);
-        return model;
-      }else{
-        var queryParams = modelId.where;
-        var queryString = buildQueryStringFromQueryParams(queryParams);
-        if(!queryString) queryString = "empty";
-        var models = this.find(modelId);
-        if(models) return models.findWhere(queryParams);
+      var model = this.modelsById[modelId];
+      if(!model) return this._fetchModel(modelId);
+      return model;
+    },
+
+    findOneWhere: function (queryParams) {
+      queryParams = queryParams || {};
+      if(Object.keys(queryParams).length === 0) {
+        throw new Error("store.findOneWhere called without arguments: not allowed");
       }
+
+      throw new Error("not implemented yet");
+
+      var queryString = buildQueryStringFromQueryParams(queryParams);
+      if(!queryString) queryString = "empty";
+      var models = this.find(modelId);
+      if(models) return models.findWhere(queryParams);
     }
 
   });

@@ -3,6 +3,7 @@ define(function(require) {
 
   var BaseStore = require('stores/BetterBaseStore'),
       TestStore = require('test/utils/TestStore'),
+      TestModel = require('test/utils/TestModel'),
       serverRequests = require('test/utils/serverRequests'),
       server;
 
@@ -25,6 +26,21 @@ define(function(require) {
       });
 
       describe("and model has not been fetched", function () {
+
+        beforeEach(function(){
+          server.respondWith(
+            "GET",
+            "/api/tests/1",
+            [
+              200, {
+                "Content-Type": "application/json"
+              },
+              JSON.stringify({
+                "id": 1, "name": "hello"
+              })
+            ]);
+        });
+
         it("should fetch the model and return it during the next call", function () {
           // first fetch, should not exist
           var model = store.findOne(modelId);
@@ -42,7 +58,10 @@ define(function(require) {
 
       describe("and model has already been fetched", function () {
 
-        // todo: add the model to the store using dispatcher
+        beforeEach(function(){
+          var model = new TestModel({id: 1});
+          store.add(model);
+        });
 
         it("should return the model", function () {
           // first fetch, should not exist
