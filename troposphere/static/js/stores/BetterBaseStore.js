@@ -134,24 +134,52 @@ define(function(require) {
     // Public API methods
     // ------------------
 
-    find: function(options){
-      options = options || {};
-      var queryParams = options.where || {};
+    find: function(){
+      var queryResults = this.modelsByQuery["empty"];
+      if(queryResults) return queryResults;
+
+      //if(!queryResults.meta) {
+      //  throw "missing 'meta' field on collection: you need to set this in the collections parse method";
+      //}
+
+      if(!this.isFetchingQuery["empty"]) {
+        // signal that we are currently fetching this query to prevent it from being fetched multiple times
+        this.isFetchingQuery["empty"] = true;
+
+        // instantiate the collection and fetch it
+        var models = new this.collection();
+        models.fetch({
+          url: models.url
+        }).done(function () {
+          // signal that we have finished fetching this query
+          this.isFetchingQuery["empty"] = false;
+
+          // add models to the query dictionary
+          this.modelsByQuery["empty"] = models;
+
+          // add models to the id dictionary
+          models.forEach(function(model){
+            this.modelsById[model.id] = model;
+          }.bind(this));
+
+          // let components know we have new data
+          this.emitChange();
+        }.bind(this));
+      }
+    },
+
+    findWhere: function(queryParams){
+      queryParams = queryParams || {};
+      if(Object.keys(queryParams).length === 0) {
+        console.warn("store.findWhere called without arguments: delegating behavior to store.find");
+        return this.find();
+      }
 
       // Build the query string
       var queryString = buildQueryStringFromQueryParams(queryParams);
 
-      queryString = queryString || "empty";
       var queryResults = this.modelsByQuery[queryString];
-      var emptyQueryResults = this.modelsByQuery["empty"];
-
       if(queryResults) return queryResults;
-
-      if(emptyQueryResults && !emptyQueryResults.meta) throw "meta field must be specified";
-
-      if(emptyQueryResults && !emptyQueryResults.meta.next){
-        return new this.collection(emptyQueryResults.where(queryParams));
-      }
 
       if(!this.isFetchingQuery[queryString]) {
         this.isFetchingQuery[queryString] = true;
@@ -172,6 +200,7 @@ define(function(require) {
           this.emitChange();
         }.bind(this));
       }
+
     },
 
     findOne: function (modelId) {
