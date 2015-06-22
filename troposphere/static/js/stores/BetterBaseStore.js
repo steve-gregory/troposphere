@@ -44,6 +44,26 @@ define(function(require) {
 
   _.extend(Store.prototype, Backbone.Events, {
 
+    //
+    // Utility functions
+    //
+
+    _convertLocalQueryParamsToServerQueryParams: function(queryParams){
+      if(this.disableServerParamMapping) return queryParams;
+
+      var queryParamMap = this.queryParamMap;
+      if(!this.queryParamMap) throw new Error("must define a queryParamMap in order to make server side filtering calls");
+
+      var serverParams = {};
+      Object.keys(queryParams).forEach(function(localParam){
+        var value = queryParams[localParam];
+        var serverParam = queryParamMap[localParam];
+        if(!serverParam) throw new Error("queryParamMap missing server mapping for:", localParam);
+        serverParams[serverParam] = value;
+      });
+      return serverParams;
+    },
+
     // ---------------
     // Event listeners
     // ---------------
@@ -315,6 +335,9 @@ define(function(require) {
       var queryResults = this.modelsByQuery[queryString];
       if(queryResults) return queryResults;
 
+      var serverQueryParams = this._convertLocalQueryParamsToServerQueryParams(queryParams, this.queryParamMap);
+      var serverQueryString = buildQueryStringFromQueryParams(serverQueryParams);
+
       if(!this.isFetchingQuery[queryString]) {
         // signal that we are currently fetching this query to prevent it from being fetched multiple times
         this.isFetchingQuery[queryString] = true;
@@ -322,7 +345,7 @@ define(function(require) {
         // instantiate the collection and fetch it
         var models = new this.collection();
         models.fetch({
-          url: _.result(models, 'url') + queryString
+          url: _.result(models, 'url') + serverQueryString
         }).done(function () {
           // signal that we have finished fetching this query
           this.isFetchingQuery[queryString] = false;

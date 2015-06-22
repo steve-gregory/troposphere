@@ -2,6 +2,7 @@ define(function(require) {
   "use strict";
 
   var BaseStore = require('stores/BetterBaseStore'),
+      TestCollection = require('test/utils/TestCollection'),
       TestStore = require('test/utils/TestStore'),
       serverRequests = require('test/utils/serverRequests'),
       server;
@@ -32,6 +33,50 @@ define(function(require) {
 
     afterEach(function(){
       server.restore();
+    });
+
+    describe("when queryParamMap defined", function(){
+      var TestStore;
+
+      beforeEach(function(){
+        TestStore = BaseStore.extend({
+          collection: TestCollection,
+          queryParamMap: {
+            "name": "title"
+          }
+        });
+      });
+
+      it("should convert local query to server query", function(){
+        var store = new TestStore();
+        var results = store.findWhere({
+          name: "hello"
+        });
+        expect(server.requests[0].url).to.equal("/api/tests?title=hello");
+      });
+
+    });
+
+    describe("when queryParamMap is not defined", function(){
+      var TestStore;
+
+      beforeEach(function(){
+        TestStore = BaseStore.extend({
+          collection: TestCollection
+        });
+      });
+
+      it("should throw an error when making a server call from query", function(){
+        var store = new TestStore();
+
+        var fn = function(){
+          store.findWhere({
+            name: "hello"
+          });
+        };
+
+        expect(fn).to.throw(Error, "must define a queryParamMap in order to make server side filtering calls");
+      });
     });
 
     describe("when query does not exist", function () {

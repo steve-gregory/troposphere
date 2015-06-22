@@ -5,7 +5,8 @@ define(function(require) {
       TestCollection = require('./TestCollection');
 
   return BaseStore.extend({
-    collection: TestCollection
+    collection: TestCollection,
+    disableServerParamMapping: true
   });
 
 });
