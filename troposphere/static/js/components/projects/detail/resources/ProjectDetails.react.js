@@ -6,6 +6,7 @@ define(function (require) {
       ButtonBar = require('./ButtonBar.react'),
       InstanceList = require('./instance/InstanceList.react'),
       VolumeList = require('./volume/VolumeList.react'),
+      Game = require('components/game/Game.react'),
       stores = require('stores'),
       actions = require('actions'),
       Instance = require('models/Instance'),
@@ -172,6 +173,7 @@ define(function (require) {
               />
             </div>
             <PreviewPanel resource={selectedResource}/>
+            <Game />
           </div>
         </div>
       );
