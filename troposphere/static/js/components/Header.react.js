@@ -16,35 +16,35 @@ define(function (require) {
     {
       name: "Dashboard",
       linksTo: "dashboard",
-      href: "/application/dashboard",
+      href: BASE_URL + "/application/dashboard",
       icon: "stats",
       requiresLogin: true
     },
     {
       name: "Projects",
       linksTo: "projects",
-      href: "/application/projects",
+      href: BASE_URL + "/application/projects",
       icon: "folder-open",
       requiresLogin: true
     },
     {
       name: "Images",
       linksTo: "images",
-      href: "/application/images",
+      href: BASE_URL + "/application/images",
       icon: "floppy-disk",
       requiresLogin: false
     },
     {
       name: "Providers",
       linksTo: "providers",
-      href: "/application/providers",
+      href: BASE_URL + "/application/providers",
       icon: "cloud",
       requiresLogin: true
     },
     {
       name: "Help",
       linksTo: "help",
-      href: "/application/help",
+      href: BASE_URL + "/application/help",
       icon: "question-sign",
       requiresLogin: false
     },
@@ -59,9 +59,10 @@ define(function (require) {
 
   var LoginLink = React.createClass({
     render: function () {
+      var login_str = BASE_URL +"/login?redirect="+BASE_URL+"/application?beta=true";
       return (
         <li className="dropdown">
-          <a href="/login?redirect=/application?beta=true">Login</a>
+          <a href={login_str}>Login</a>
         </li>
       );
     }
@@ -114,9 +115,10 @@ define(function (require) {
 
     renderBetaToggle: function () {
       if (!window.show_troposphere_only) {
+        var login_str = BASE_URL + "/application?beta=false"
         return (
           <li>
-            <a className="beta-toggle" href="/application?beta=false">
+            <a className="beta-toggle" href={login_str}>
               <div className="toggle-wrapper">
                 <div className="toggle-background">
                   <div className="toggle-text">View Old UI</div>

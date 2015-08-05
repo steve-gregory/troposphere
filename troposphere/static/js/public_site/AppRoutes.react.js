@@ -14,14 +14,14 @@ define(function (require) {
     ImagesMaster = require('components/applications/ImagesMaster.react');
 
   var AppRoutes = (
-    <Route name="root" path="/application" handler={Master}>
+    <Route name="root" path={BASE_URL + "/application"} handler={Master}>
       <Route name="images" handler={ImagesMaster}>
         <DefaultRoute name="search" handler={ImageListPage}/>
         <Route name="tags" handler={ImageTagsPage}/>
         <Route name="image-details" path=":imageId" handler={ImageDetailsPage}/>
       </Route>
       <Route name="help" handler={HelpPage}/>
-      <Redirect from="/application" to="/application/images"/>
+      <Redirect from={BASE_URL + "/application"} to={BASE_URL + "/application/images"}>
     </Route>
   );
 

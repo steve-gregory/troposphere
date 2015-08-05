@@ -32,7 +32,7 @@ define(function (require) {
     ResourceAdmin = require('./components/admin/ResourceAdmin.react');
 
   var AppRoutes = (
-    <Route name="root" path="/application" handler={Master}>
+    <Route name="root" path={BASE_URL + "/application"} handler={Master}>
       <Route name="dashboard" handler={DashboardPage}/>
 
       <Route name="projects" handler={ProjectsMaster}>
