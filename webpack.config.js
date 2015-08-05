@@ -34,7 +34,7 @@ module.exports = {
   context: path.join(__dirname, "/troposphere/static/js"),
   output: {
     path: path.join(__dirname, "/troposphere/assets"),
-    publicPath: "./",
+    publicPath: "/ui/assets/",
     filename: "[name].js"
   },
   module: {
