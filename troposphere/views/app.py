@@ -81,6 +81,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
     template_params['THEME_HEADER_TEXT'] = settings.THEME_HEADER_TEXT
     template_params['THEME_FAVICON'] = settings.THEME_FAVICON
     template_params['THEME_CSS_FILE'] = settings.THEME_CSS_FILE
+    template_params['THEME_URL'] = "/assets/themes/atmosphere-theme"
     template_params['THEME_LOGO'] = settings.THEME_LOGO
     template_params['THEME_FOOTER_TEXT'] = settings.THEME_FOOTER_TEXT
     template_params['UI_VERSION'] = settings.UI_VERSION

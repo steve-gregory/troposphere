@@ -11,9 +11,9 @@ define(function (require) {
     modals = require('modals'),
     stores = require('stores');
     // images
-    var launch_instance = require("images/icon_launchnewinstance.png"),
-        settings = require("images/icon_settings.png"),
-        help = require("images/icon_gethelp.png");
+    var launch_instance = THEME_URL + "/images/icon_launchnewinstance.png",
+        settings = THEME_URL + "/images/icon_settings.png",
+        help = THEME_URL + "/images/icon_gethelp.png";
 
   return React.createClass({
     renderRequestMoreResources: function (e) {
