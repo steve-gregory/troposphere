@@ -128,6 +128,13 @@ define(function (require) {
       );
     },
 
+    componentDidMount: function(){
+      var project = this.props.project,
+      projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+        projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
+        console.log(stores.ProjectVolumeStore.getAll());
+    },
+
     render: function () {
       var project = this.props.project,
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),

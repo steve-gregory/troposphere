@@ -64,7 +64,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     # Return the old Airport UI
     else:
         response = render_to_response(
-            'login.html',
+            'index.html',
             template_params,
             context_instance=RequestContext(request)
         )
