@@ -2,13 +2,13 @@ define(function(require){
   "use strict";
 
   var Backbone = require('backbone'),
-      ImageversionMembership = require('models/ImageVersionMembership'),
+      ImageMembership = require('models/ImageMembership'),
       globals = require('globals');
 
   return Backbone.Collection.extend({
-    model: ImageversionMembership,
+    model: ImageMembership,
 
-    url: globals.API_V2_ROOT + "/image_version_memberships",
+    url: globals.API_V2_ROOT + "/image_memberships",
 
     parse: function (response) {
       this.meta = {

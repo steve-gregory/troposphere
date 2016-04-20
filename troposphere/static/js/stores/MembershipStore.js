@@ -15,17 +15,6 @@ define(function (require) {
       page_size: 6000
     },
 
-
-    getMembershipsForVersion: function(version) {
-      if(!this.models) throw new Error("Must fetch users before calling getMembershipsFromList");
-
-      var versionMembershipArray = version.membership.map(function(user){
-        return {"username":user};
-      });
-
-      return new MembershipCollection(versionMembershipArray);
-    },
-
     getMembershipsFromList: function (usernameList) {
       if(!this.models) throw new Error("Must fetch users before calling getMembershipsFromList");
       var users = usernameList.map(function(username){

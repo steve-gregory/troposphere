@@ -1,0 +1,8 @@
+define(function (require) {
+
+  return {
+    ADD_IMAGE_MEMBERSHIP: "ADD_IMAGE_MEMBERSHIP",
+    REMOVE_IMAGE_MEMBERSHIP: "REMOVE_IMAGE_MEMBERSHIP"
+  };
+
+});
