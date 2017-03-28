@@ -5,7 +5,6 @@ import Utils from "actions/Utils";
 import InstanceConstants from "constants/InstanceConstants";
 import ProjectInstanceConstants from "constants/ProjectInstanceConstants";
 import InstanceState from "models/InstanceState";
-import EventConstants from "constants/EventConstants";
 
 var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
@@ -125,10 +124,6 @@ Dispatcher.register(function(dispatch) {
             break;
 
         case InstanceConstants.UPDATE_INSTANCE:
-            store.update(payload.instance);
-            break;
-
-        case EventConstants.ALLOCATION_SOURCE_CHANGE:
             store.update(payload.instance);
             break;
 
