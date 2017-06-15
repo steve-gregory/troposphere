@@ -7,6 +7,10 @@ import RaisedButton from "material-ui/RaisedButton";
 const MyResourceRequestsPage = React.createClass({
     displayName: "MyResourceRequestsPage",
 
+    props: {
+        subscriptions: React.PropTypes.object.isRequired
+    },
+
     closeRequest: function(request) {
         let { StatusStore } = this.props.subscriptions;
         var closedStatus = StatusStore.findWhere({
@@ -19,7 +23,7 @@ const MyResourceRequestsPage = React.createClass({
     },
 
     render: function() {
-        let { IdentityStore, ProfileStore, StatusStore, ResourceRequestStore } = this.props.subscriptions;
+        let { ProfileStore, StatusStore, ResourceRequestStore } = this.props.subscriptions;
         var username = ProfileStore.get().id,
             statusTypes = StatusStore.getAll();
 
