@@ -150,7 +150,7 @@ export default React.createClass({
                 this.state.providerSize :
                 providerSizeList.first();
         }
-        ;
+
 
         let allocationSource;
         if (allocationSourceList) {
@@ -166,7 +166,7 @@ export default React.createClass({
             provider,
             providerSize,
             identityProvider,
-            allocationSource,
+            allocationSource
         });
     },
 
@@ -251,13 +251,13 @@ export default React.createClass({
             imageVersionList = imageVersionList.cfilter(filterEndDate);
             imageVersion = imageVersionList.first();
         }
-        ;
+
 
         let providerList;
         if (imageVersion) {
             providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
-        ;
+
 
         let provider,
             providerSizeList,
@@ -272,13 +272,13 @@ export default React.createClass({
                 "provider.id": provider.id
             });
         }
-        ;
+
 
         let providerSize;
         if (providerSizeList) {
             providerSize = providerSizeList.first();
         }
-        ;
+
 
         this.setState({
             image,
@@ -286,7 +286,7 @@ export default React.createClass({
             provider,
             imageVersion,
             providerSize,
-            identityProvider,
+            identityProvider
         }, this.viewBasic);
     },
 
@@ -326,7 +326,7 @@ export default React.createClass({
             if (providerSizeList) {
                 providerSize = providerSizeList.first();
             }
-            ;
+
         }
 
         this.setState({
@@ -345,7 +345,7 @@ export default React.createClass({
 
     onAllocationSourceChange: function(source) {
         this.setState({
-            allocationSource: source,
+            allocationSource: source
         });
     },
 
@@ -363,7 +363,7 @@ export default React.createClass({
         if (providerSizeList) {
             providerSize = providerSizeList.first();
         }
-        ;
+
 
         this.setState({
             provider,
@@ -639,7 +639,7 @@ export default React.createClass({
             onBack: this.onBack, onCancel: this.hide, onNameChange: this.onNameChange, onNameBlur: this.onNameBlur, onProjectChange: this.onProjectChange, onAllocationSourceChange:
             this.onAllocationSourceChange, onProviderChange: this.onProviderChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
             this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
-            this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList, }} />
+            this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList }} />
         )
     },
 

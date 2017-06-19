@@ -6,7 +6,6 @@ import BootstrapModalMixin from "components/mixins/BootstrapModalMixin";
 import stores from "stores";
 import globals from "globals";
 import SelectMenu from "components/common/ui/SelectMenu";
-import Utils from "actions/Utils";
 import InstanceActions from "actions/InstanceActions";
 
 const DefaultModalView = React.createClass({
@@ -44,7 +43,7 @@ const DefaultModalView = React.createClass({
         })
 
         return {
-            instanceAllocations,
+            instanceAllocations
         }
     },
 
@@ -67,7 +66,7 @@ const DefaultModalView = React.createClass({
         let { allocationSource } = this.state.instanceAllocations[instance.id];
 
         return (
-        <li key={instance.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0px 0px 10px 10px", }}>
+        <li key={instance.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0px 0px 10px 10px" }}>
             <b style={{ whiteSpace: "nowrap" }}>{instance.get("name")}</b>
             <span style={{ width: "40%" }}><SelectMenu current={allocationSource}
                                                  list={allocationSources}
@@ -81,7 +80,7 @@ const DefaultModalView = React.createClass({
         let { instanceAllocations } = this.state;
         instanceAllocations[instance.id] = {
             instance,
-            allocationSource,
+            allocationSource
         }
         this.setState({
             instanceAllocations
@@ -192,7 +191,7 @@ const LoadingModalView = React.createClass({
             top: "0",
             left: "0",
             bottom: "0",
-            alignItems: "center",
+            alignItems: "center"
         };
 
         return (
@@ -204,7 +203,7 @@ const LoadingModalView = React.createClass({
             </div>
         </div>
         );
-    },
+    }
 })
 
 const ModalBackend = React.createClass({
@@ -258,7 +257,7 @@ const ModalBackend = React.createClass({
             allocationSources,
             projects,
             instances: this.props.instances,
-            onConfirm: this.onConfirm,
+            onConfirm: this.onConfirm
         }
 
         let body = loading

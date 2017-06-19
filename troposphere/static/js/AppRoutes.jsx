@@ -116,7 +116,7 @@ function AppRoutes(props) {
             <IndexRedirect to="dashboard" />
         </Route>
     )
-};
+}
 
 
 export default AppRoutes;

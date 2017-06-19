@@ -3,7 +3,6 @@ import Backbone from "backbone";
 
 import BreadcrumbBar from "components/projects/common/BreadcrumbBar";
 import globals from "globals";
-import Utils from "actions/Utils";
 import InstanceInfoSection from "./sections/InstanceInfoSection";
 import InstanceDetailsSection from "./sections/InstanceDetailsSection";
 import InstanceMetricsSection from "./sections/InstanceMetricsSection";
@@ -16,7 +15,7 @@ export default React.createClass({
     propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        allocationSources: React.PropTypes.instanceOf(Backbone.Collection),
+        allocationSources: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
     renderAllocationSourceSection() {
