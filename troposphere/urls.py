@@ -32,9 +32,7 @@ ui_urlpatterns = [
     url(r'^tests$', views.tests),
     url(r'^tropo-api/', include('api.urls')),
     url(r'^allocations/', views.allocations, name='allocations'),
-    url(r'^web_shell$', views.web_shell),
-    url(r'^web_desktop$', views.web_desktop),
-    url(r'^guacamole$', views.guacamole)
+    url(r'^web_shell$', views.web_shell)
 ]
 
 # NOTE: Have to remove the leading slash on 'BASE_URL'

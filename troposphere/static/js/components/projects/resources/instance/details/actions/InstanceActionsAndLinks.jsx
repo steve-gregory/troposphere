@@ -1,4 +1,7 @@
 import $ from "jquery";
+import globals from "globals";
+import NotificationController from "controllers/NotificationController";
+import Utils from "actions/Utils";
 
 import React from "react";
 import Backbone from "backbone";
@@ -188,47 +191,44 @@ export default React.createClass({
     onWebDesktop: function(instance) {
         // TODO:
         //      move this into a utilities file
-        var CSRFToken = findCookie("tropo_csrftoken");
-
-        // build a form to POST to web_desktop
-        var form = $("<form>")
-            .attr("method", "POST")
-            .attr("action", "/web_desktop")
-            .attr("target", "_blank");
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "instanceId")
-            .attr("value", instance.get('uuid')));
-
-        form.append($("<input>")
-            .attr("type", "hidden")
-            .attr("name", "csrfmiddlewaretoken")
-            .attr("style", "display: none;")
-            .attr("value", CSRFToken));
-
-        $("body").append(form);
-        form[0].submit();
+        let webTokenURL = globals.API_V2_ROOT + "/web_tokens/" +instance.get('uuid')
+        // POST to web_TokenURL and request a redirect
+        this.onSubmitWebTokenForm(webTokenURL, instance.get('uuid'), 'vnc', 'vnc');
     },
 
     onGuacConn: function(instance, proto) {
-        var CSRFToken = findCookie("tropo_csrftoken");
+        let webTokenURL = globals.API_V2_ROOT + "/web_tokens/"
+                +instance.get('uuid');
+        this.onSubmitWebTokenForm(webTokenURL, instance.get('uuid'), 'guacamole', proto);
+    },
 
-        // build a form to POST to guacamole
+    onSubmitWebTokenForm: function(webTokenURL, instanceId, client, protocol) {
+        // POST to web_TokenURL and request a redirect, then follow the redirect on a new tab.
+        var CSRFToken = findCookie("tropo_csrftoken");
         var form = $("<form>")
-            .attr("method", "POST")
-            .attr("action", "/guacamole")
+            .attr("method", "GET")
+            .attr("action", webTokenURL)
             .attr("target", "_blank");
+
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "client")
+            .attr("value", client));
+
+        form.append($("<input>")
+            .attr("type", "hidden")
+            .attr("name", "redirect")
+            .attr("value", true));
 
         form.append($("<input>")
             .attr("type", "hidden")
             .attr("name", "protocol")
-            .attr("value", proto));
+            .attr("value", protocol));
 
         form.append($("<input>")
             .attr("type", "hidden")
             .attr("name", "instanceId")
-            .attr("value", instance.get('uuid')));
+            .attr("value", instanceId));
 
         form.append($("<input>")
             .attr("type", "hidden")
@@ -263,7 +263,6 @@ export default React.createClass({
                 icon: "sound-stereo",
                 onClick: this.onWebDesktop.bind(
                     this,
-                    ipAddress,
                     this.props.instance),
                 openInNewWindow: true,
                 isDisabled: disableWebLinks
