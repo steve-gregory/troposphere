@@ -19,7 +19,7 @@
     "clean": "rimraf troposphere/assets/bundles",
     "serve": "webpack-dev-server --hot --env development --content-base troposphere/assets",
     "build:dev": "npm run clean && webpack --env development",
-    "build:prod": "npm run clean && webpack --env production -p",
+    "build:prod": "webpack --env production -p",
     "jenkins": "webpack --profile --colors --",
     "test": "echo \"Error: no test specified\" && exit 1",
     "stats:dev": "webpack --json --env development > stats.json",
